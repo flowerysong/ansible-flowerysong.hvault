@@ -1,0 +1,69 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.3.2
+
+jobs:
+  test:
+    parameters:
+      ansible-version:
+        type: string
+      vault-version:
+        type: string
+    executor: python/default
+    resource_class: small
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-deps-ansible-<< parameters.ansible-version >>
+
+      - run: pip install ansible-core==<< parameters.ansible-version >> pycodestyle pylint pyyaml voluptuous yamllint junit-xml
+
+      - save_cache:
+          key: v1-deps-ansible-<< parameters.ansible-version >>
+          paths:
+            - /home/circleci/.cache/pip
+            - /home/circleci/.local/lib
+            - /home/circleci/.pyenv
+
+      - run:
+          name: Build collection
+          command: ansible-galaxy collection build
+
+      - run:
+          name: Install collection
+          command: ansible-galaxy collection install flowerysong-hvault-*.tar.gz
+
+      - run:
+          name: Run static analysis tests
+          command: ansible-test sanity
+          working_directory: ~/.ansible/collections/ansible_collections/flowerysong/hvault
+
+      - run:
+          name: Set Vault version
+          command: "echo 'vault_version: << parameters.vault-version >>' > ~/.ansible/collections/ansible_collections/flowerysong/hvault/tests/integration/integration_config.yml"
+
+      - run:
+          name: Run integration tests
+          command: ansible-test integration -vvv
+          working_directory: ~/.ansible/collections/ansible_collections/flowerysong/hvault
+
+      - store_artifacts:
+          path: ~/.ansible/collections/ansible_collections/flowerysong/hvault/tests/output/.tmp/output_dir
+
+      - store_test_results:
+          path: ~/.ansible/collections/ansible_collections/flowerysong/hvault/tests/output/junit
+
+workflows:
+  main:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              ansible-version:
+                - 2.11.0b3
+              vault-version:
+                - 1.4.7
+                - 1.5.7
+                - 1.6.3

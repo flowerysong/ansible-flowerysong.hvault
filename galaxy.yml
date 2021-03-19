@@ -1,0 +1,18 @@
+namespace: flowerysong
+name: hvault
+version: 0.1.0
+
+authors:
+  - Paul Arthur <paul.arthur@flowerysong.com> (@flowerysong)
+
+tags:
+  - hashicorp
+  - vault
+  - hashi_vault
+
+readme: README.md
+license_file: COPYING
+description: Plugins for interacting with HashiCorp Vault
+
+repository: https://github.com/flowerysong/ansible-flowerysong.hvault
+issues: https://github.com/flowerysong/ansible-flowerysong.hvault/issues
