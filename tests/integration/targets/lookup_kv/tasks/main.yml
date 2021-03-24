@@ -1,0 +1,42 @@
+- import_role:
+    name: setup_vault
+
+- environment:
+    VAULT_ADDR: "{{ vault_url }}"
+    VAULT_TOKEN: "{{ vault_root_token }}"
+  vars:
+    vault_conf:
+      url: "{{ vault_url }}"
+      token: "{{ vault_root_token }}"
+  block:
+    - name: Create the KV mounts
+      flowerysong.hvault.engine:
+        path: "{{ item }}"
+        type: kv
+        options:
+          version: 1
+      loop:
+        - secret
+        - terces
+
+    - name: Create secrets
+      flowerysong.hvault.write:
+        path: "{{ item.path }}"
+        data: "{{ item.data }}"
+      loop:
+        - path: secret/ping
+          data:
+            value: pong
+        - path: terces/ping
+          data:
+            value: gnop
+
+    - assert:
+        that:
+          - "lookup('flowerysong.hvault.kv', 'ping', **vault_conf) == {'value': 'pong'}"
+          - "lookup('flowerysong.hvault.kv', 'ping', mount_point='terces', **vault_conf) == {'value': 'gnop'}"
+
+
+  always:
+    - import_role:
+        name: setup_vault_teardown
