@@ -40,7 +40,7 @@
           - result.results.1 is not changed
           - result.results.0.policy == result.results.1.policy
 
-    - name: Test auto-wrapping in path
+    - name: Test terse policies
       flowerysong.hvault.policy:
         name: testpol
         policy: "{{ item }}"
@@ -48,12 +48,14 @@
         - "{{ policy }}"
         - "{{ policy }}"
         - "{{ { 'path': policy } }}"
+        - secret: [list]
+          secret/*: [list]
       vars:
         policy:
           secret:
             capabilities:
               - list
-          "secret/*":
+          secret/*:
             capabilities:
               - list
       register: result
@@ -63,6 +65,7 @@
           - result.results.0 is changed
           - result.results.1 is not changed
           - result.results.2 is not changed
+          - result.results.3 is not changed
 
     - name: Pretend to delete a policy
       flowerysong.hvault.policy:

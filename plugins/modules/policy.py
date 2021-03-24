@@ -46,22 +46,20 @@ EXAMPLES = '''
     name: blackops
     policy:
       path:
-        "secret/*":
+        secret/*:
           capabilities: [create, read, update, delete, list]
         secret:
           capabilities:
             - list
 
-# You can also leave out the 'path' level, and the module will wrap it
-# for you automatically.
+# You can also leave out the (currently static) 'path' and 'capabilities'
+# levels, and the module will add them for you automatically.
 - name: Create a policy
   flowerysong.hvault.policy:
     name: blackops
     policy:
-      "secret/*":
-        capabilities: [create, read, update, delete, list]
-      secret:
-        capabilities: [list]
+      secret/*: [create, read, update, delete, list]
+      secret: [list]
 
 - name: Create an HCL policy
   flowerysong.hvault.policy:
@@ -133,9 +131,14 @@ def main():
     if not isinstance(policy, string_types):
         if not isinstance(policy, dict):
             module.fail_json(msg='policy must be either a dict or a string, got {0}'.format(type(policy)))
-        # allow people to write less nested policies
+
+        # allow people to write policies with less typing
         if 'path' not in policy:
             policy = {'path': policy}
+        for key in policy['path']:
+            if isinstance(policy['path'][key], list):
+                policy['path'][key] = {'capabilities': policy['path'][key]}
+
         policy = jsonify(policy)
 
     changed = False
