@@ -17,9 +17,9 @@
           version: 1
 
     - name: Create secret/ping
-      flowerysong.hvault.write:
-        path: secret/ping
-        data:
+      flowerysong.hvault.kv:
+        key: ping
+        value:
           value: pong
 
     - assert:

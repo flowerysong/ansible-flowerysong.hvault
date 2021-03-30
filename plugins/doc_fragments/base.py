@@ -55,7 +55,7 @@ options:
 
     # Ansible doesn't currently support listing environment sources in modules,
     # so they need to be split out into a separate fragment. This also allows us
-    # to add ini as a configuration source.
+    # to add ini and vars as configuration sources.
     PLUGINS = '''
 options:
   url:
@@ -64,34 +64,48 @@ options:
     ini:
       - section: hvault
         key: url
+    vars:
+      - name: ansible_hvault_addr
   token:
     env:
       - name: VAULT_TOKEN
     ini:
       - section: hvault
         key: token
+    vars:
+      - name: ansible_hvault_token
   http_agent:
     ini:
       - section: hvault
         key: http_agent
+    vars:
+      - name: ansible_hvault_http_agent
   use_proxy:
     ini:
       - section: hvault
         key: use_proxy
+    vars:
+      - name: ansible_hvault_use_proxy
   validate_certs:
     ini:
       - section: hvault
         key: validate_certs
+    vars:
+      - name: ansible_hvault_validate_certs
   client_cert:
     env:
       - name: VAULT_CLIENT_CERT
     ini:
       - section: hvault
         key: client_cert
+    vars:
+      - name: ansible_hvault_client_cert
   client_key:
     env:
       - name: VAULT_CLIENT_KEY
     ini:
       - section: hvault
         key: client_key
+    vars:
+      - name: ansible_hvault_client_key
 '''
