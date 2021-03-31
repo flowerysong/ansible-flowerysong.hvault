@@ -20,22 +20,21 @@
         - terces
 
     - name: Create secrets
-      flowerysong.hvault.write:
-        path: "{{ item.path }}"
-        data: "{{ item.data }}"
+      flowerysong.hvault.kv_v2:
+        key: "{{ item.path }}"
+        value: "{{ item.data }}"
+        mount_point: "{{ item.mount | default(omit) }}"
       loop:
-        - path: secret/data/ping
+        - path: ping
           data:
-            data:
-              value: penguin
-        - path: secret/data/ping
+            value: penguin
+        - path: ping
           data:
-            data:
-              value: pong
-        - path: terces/data/ping
+            value: pong
+        - mount: terces
+          path: ping
           data:
-            data:
-              value: gnop
+            value: gnop
 
     - assert:
         that:
