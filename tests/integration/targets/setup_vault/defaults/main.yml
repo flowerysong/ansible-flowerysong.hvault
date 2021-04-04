@@ -1,4 +1,4 @@
-vault_version: 1.6.3
+vault_version: 1.7.0
 test_platform: linux
 test_arch: amd64
 vault_port: 18200

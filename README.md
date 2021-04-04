@@ -18,7 +18,7 @@ This collection is currently tested with ansible-core 2.11 and Python
 ## Supported Vault Versions
 
 This collection is tested against the last three major versions of
-Vault (currently 1.4, 1.5, and 1.6.) Older versions may or may not
+Vault (currently 1.5, 1.6, and 1.7.) Older versions may or may not
 work.
 
 Some plugin interfaces include features specific to Vault Enterprise,

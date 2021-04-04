@@ -64,6 +64,6 @@ workflows:
               ansible-version:
                 - 2.11.0b3
               vault-version:
-                - 1.4.7
                 - 1.5.7
                 - 1.6.3
+                - 1.7.0
