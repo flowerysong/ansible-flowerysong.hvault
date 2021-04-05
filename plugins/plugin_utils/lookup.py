@@ -20,20 +20,23 @@ display = Display()
 
 
 class HVaultLookupBase(LookupBase):
-    def run(self, terms, variables=None, **kwargs):
-        ret = []
-
+    def config_client(self):
         client_opts = {}
         for opt in hvault_argument_spec():
             client_opts[opt] = self.get_option(opt)
 
-        client = HVaultClient(client_opts)
+        self.client = HVaultClient(client_opts)
+
+    def run(self, terms, variables=None, **kwargs):
+        ret = []
+
+        self.config_client()
 
         for term in terms:
             display.debug('flowerysong.hvault lookup term: {0}'.format(term))
 
             try:
-                secret = client.get(term)
+                secret = self.client.get(term)
             except URLError as e:
                 raise AnsibleError('Unable to fetch secret', orig_exc=e)
 
