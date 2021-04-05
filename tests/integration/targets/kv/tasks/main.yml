@@ -53,6 +53,10 @@
       check_mode: true
       register: result
 
+    - assert:
+        that:
+          - result is changed
+
     - name: Modify a secret
       flowerysong.hvault.kv:
         key: ping
