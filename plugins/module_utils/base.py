@@ -44,10 +44,11 @@ def hvault_argument_spec():
 
 
 def hvault_compare(dict1, dict2):
-    for key in (set(dict1.keys()) | set(dict2.keys())):
-        if key in ('accessor', 'uuid'):
-            continue
-        if dict1.get(key) != dict2.get(key):
+    ignore_keys = frozenset(('accessor', 'uuid'))
+    for key in ((set(dict1.keys()) | set(dict2.keys())) - ignore_keys):
+        v1 = dict1.get(key)
+        v2 = dict2.get(key)
+        if (v1 or v2) and (v1 != v2):
             return False
     return True
 
