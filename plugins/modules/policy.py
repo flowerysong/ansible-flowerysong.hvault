@@ -139,7 +139,7 @@ def main():
             if isinstance(policy['path'][key], list):
                 policy['path'][key] = {'capabilities': policy['path'][key]}
 
-        policy = jsonify(policy)
+        policy = jsonify(policy, indent=2, sort_keys=True)
 
     changed = False
     if not result or result['policy'] != policy:
