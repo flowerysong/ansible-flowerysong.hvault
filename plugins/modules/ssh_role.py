@@ -17,25 +17,10 @@ description:
 version_added: 0.1.0
 extends_documentation_fragment:
   - flowerysong.hvault.base
+  - flowerysong.hvault.role
 options:
   mount_point:
-    description:
-      - Path where the SSH backend is mounted.
-    type: str
     default: ssh
-  name:
-    description:
-      - Name of the role to manage.
-    type: str
-    required: true
-  state:
-    description:
-      - Desired state of the secret.
-    type: str
-    choices:
-      - present
-      - absent
-    default: present
   default_user:
     description:
       - Default user to sign keys for.
@@ -142,34 +127,31 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six.moves.urllib.error import URLError
+from ..module_utils.module import HVaultModule
 
-from ..module_utils.base import (
-    HVaultClient,
-    hvault_argument_spec,
-)
+
+class SSHRoleModule(HVaultModule):
+    def mangle_config(self, config):
+        if config.get('default_user') and not config.get('allowed_users'):
+            config['allowed_users'] = config['default_user']
+
+        if '{{' in (config.get('allowed_users') or ''):
+            config['allowed_users_template'] = True
+
+        if not config['allow_host_certificates'] and not config['allow_user_certificates']:
+            self.module.fail_json(msg="At least one of 'allow_host_certificates' and 'allow_user_certificates' must be true.")
+
+        return config
 
 
 def main():
-    argspec = hvault_argument_spec()
-
-    argspec.update(
-        dict(
-            mount_point=dict(
-                default='ssh',
-            ),
-            name=dict(
-                required=True,
-            ),
-            state=dict(
-                choices=['present', 'absent'],
-                default='present',
-            ),
-        )
+    argspec = dict(
+        mount_point=dict(
+            default='ssh',
+        ),
     )
 
-    role_options = dict(
+    optspec = dict(
         default_user=dict(default=''),
         allowed_users=dict(
             type='list',
@@ -239,68 +221,20 @@ def main():
         ),
     )
 
-    argspec.update(role_options)
-
-    module = AnsibleModule(
-        supports_check_mode=True,
-        argument_spec=argspec,
+    module = SSHRoleModule(
+        argspec=argspec,
+        optspec=optspec,
     )
 
-    client = HVaultClient(module.params, module)
-
-    path = '{0}/roles/{1}'.format(module.params['mount_point'].rstrip('/'), module.params['name'])
-
-    changed = False
-    try:
-        result = client.get(path, fatal=False)['data']
-    except URLError:
-        result = {}
-
-    # key_bits has no meaning for CAs, but is returned anyway
-    result.pop('key_bits', None)
-
-    if module.params['state'] == 'absent':
-        if result:
-            changed = True
-            if not module.check_mode:
-                client.delete(path)
-        module.exit_json(changed=changed)
-
-    config = {
-        'key_type': 'ca',
-        'allowed_users_template': False,
-    }
-
-    for (k, conf) in role_options.items():
-        v = module.params[k]
-        if conf.get('type') == 'list':
-            if v:
-                config[k] = ','.join(v)
-            else:
-                config[k] = ''
-        else:
-            config[k] = v
-
-    if config.get('default_user') and not config.get('allowed_users'):
-        config['allowed_users'] = config['default_user']
-
-    if '{{' in (config.get('allowed_users') or ''):
-        config['allowed_users_template'] = True
-
-    if not config['allow_host_certificates'] and not config['allow_user_certificates']:
-        module.fail_json(msg="At least one of 'allow_host_certificates' and 'allow_user_certificates' must be true.")
-
-    if config != result:
-        changed = True
-        if not module.check_mode:
-            client.post(path, config)
-
-    if module.check_mode:
-        result = config
-    else:
-        result = client.get(path)['data']
-
-    module.exit_json(changed=changed, role=result)
+    module.run(
+        path_fmt='{0}/roles/{1}',
+        bad_keys=['key_bits'],
+        config=dict(
+            key_type='ca',
+            allowed_users_template=False,
+        ),
+        join_lists=True,
+    )
 
 
 if __name__ == '__main__':
