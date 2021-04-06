@@ -37,6 +37,7 @@ class HVaultMountModule():
             dict(
                 state=dict(choices=['present', 'absent'], default='present'),
                 path=dict(required=True),
+                force=dict(type='bool', default=False),
                 type=dict(),
                 description=dict(default=''),
                 options=dict(type='dict'),
@@ -103,6 +104,8 @@ class HVaultMountModule():
             changed = True
             if not self.module.check_mode:
                 if mount['type'] != payload['type']:
+                    if not self.params['force']:
+                        self.module.fail_json('Existing mount at {0} is {1} and force is false'.format(mount_path, mount['type']))
                     self.client.delete(mount_path)
                     self.client.post(mount_path, data=payload)
                 else:

@@ -23,6 +23,11 @@ options:
       - Mount path.
     type: str
     required: true
+  force:
+    description:
+      - Allow deletion of existing mounts with an incompatible type.
+    type: bool
+    default: false
   description:
     description:
       - Description of the mount point.

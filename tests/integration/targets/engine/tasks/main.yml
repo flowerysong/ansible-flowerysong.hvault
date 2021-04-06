@@ -125,6 +125,30 @@
           - result.results.0 is changed
           - result.results.1 is not changed
 
+    - name: Attempt to overwrite a mount
+      flowerysong.hvault.engine:
+        path: ssh
+        type: generic
+      ignore_errors: true
+      register: result
+
+    - assert:
+        that:
+          - result is failed
+          - "'force is false' in result.msg"
+
+    - name: Overwrite a mount
+      flowerysong.hvault.engine:
+        path: ssh
+        type: generic
+        force: true
+      register: result
+
+    - assert:
+        that:
+          - result is changed
+          - result.mount.type == 'generic'
+
   always:
     - import_role:
         name: setup_vault_teardown
