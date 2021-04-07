@@ -1,6 +1,6 @@
 # HashiCorp Vault Ansible Plugins
 
-[![CircleCI badge](https://circleci.com/gh/flowerysong/ansible-flowerysong.hvault.svg?style=shield)](https://circleci.com/gh/flowerysong/ansible-flowerysong.hvault)
+[![ansible-test](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml/badge.svg)](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml)
 
 This [Ansible](https://www.ansible.com/) Collection implements a number of
 plugins for interacting with [HashiCorp Vault](https://vaultproject.io/).
