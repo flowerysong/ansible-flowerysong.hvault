@@ -50,4 +50,4 @@ class LookupModule(HVaultLookupBase):
         mount = self.get_option('mount_point')
         terms = ['/'.join((mount, x)) for x in terms]
 
-        return super(LookupModule, self).run(terms)
+        return super().run(terms)

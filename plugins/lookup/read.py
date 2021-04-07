@@ -65,4 +65,4 @@ class LookupModule(HVaultLookupBase):
     def run(self, terms, variables=None, **kwargs):
         self.set_options(direct=kwargs)
 
-        return super(LookupModule, self).run(terms)
+        return super().run(terms)

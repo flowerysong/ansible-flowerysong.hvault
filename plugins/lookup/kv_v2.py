@@ -61,5 +61,5 @@ class LookupModule(HVaultLookupBase):
         version = '?version={0}'.format(version) if version else ''
         terms = ['{0}/data/{1}{2}'.format(mount, x, version) for x in terms]
 
-        result = super(LookupModule, self).run(terms)
+        result = super().run(terms)
         return [x['data'] for x in result]
