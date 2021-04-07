@@ -60,7 +60,7 @@ class LookupModule(HVaultLookupBase):
             try:
                 secret = self.client.list(term)
             except URLError as e:
-                raise AnsibleError('Unable to list endpoint', orig_exc=e)
+                raise AnsibleError('Unable to list endpoint') from e
 
             display.vvvv('flowerysong.hvault lookup found {0}'.format(secret))
 

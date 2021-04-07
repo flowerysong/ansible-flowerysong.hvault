@@ -18,7 +18,7 @@ jobs:
       - restore_cache:
           key: v1-deps-ansible-<< parameters.ansible-version >>
 
-      - run: pip install ansible-core==<< parameters.ansible-version >> pycodestyle pylint pyyaml voluptuous yamllint junit-xml
+      - run: pip install '<< parameters.ansible-version >>' pycodestyle pylint pyyaml voluptuous yamllint junit-xml
 
       - save_cache:
           key: v1-deps-ansible-<< parameters.ansible-version >>
@@ -37,7 +37,7 @@ jobs:
 
       - run:
           name: Run static analysis tests
-          command: ansible-test sanity
+          command: ansible-test sanity --python 3.8
           working_directory: ~/.ansible/collections/ansible_collections/flowerysong/hvault
 
       - run:
@@ -62,7 +62,15 @@ workflows:
           matrix:
             parameters:
               ansible-version:
-                - 2.11.0b3
+                - ansible-base>=2.10<=2.11
+                - git+https://github.com/ansible/ansible#egg=ansible-core
+              vault-version:
+                - 1.7.0
+      - test:
+          matrix:
+            parameters:
+              ansible-version:
+                - ansible-core>=2.11<=2.12
               vault-version:
                 - 1.5.7
                 - 1.6.3

@@ -38,7 +38,7 @@ class HVaultLookupBase(LookupBase):
             try:
                 secret = self.client.get(term)
             except URLError as e:
-                raise AnsibleError('Unable to fetch secret', orig_exc=e)
+                raise AnsibleError('Unable to fetch secret') from e
 
             display.vvvv('flowerysong.hvault lookup found {0}'.format(secret))
 

@@ -12,8 +12,9 @@ dependencies on the controller or target hosts.
 
 ## Supported Ansible Versions
 
-This collection is currently tested with ansible-core 2.11 and Python
-3.8. Other versions may or may not work.
+This collection is tested with Python 3.8 on ansible-base 2.10,
+ansible-core 2.11, and ansible-core devel. Other versions may or may
+not work.
 
 ## Supported Vault Versions
 
