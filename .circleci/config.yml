@@ -18,7 +18,7 @@ jobs:
       - restore_cache:
           key: v1-deps-ansible-<< parameters.ansible-version >>
 
-      - run: pip install << parameters.ansible-version >> pycodestyle pylint pyyaml voluptuous yamllint junit-xml
+      - run: pip install '<< parameters.ansible-version >>' pycodestyle pylint pyyaml voluptuous yamllint junit-xml
 
       - save_cache:
           key: v1-deps-ansible-<< parameters.ansible-version >>
@@ -62,7 +62,7 @@ workflows:
           matrix:
             parameters:
               ansible-version:
-                - ansible-base==2.10.7
+                - ansible-base>=2.10<=2.11
                 - git+https://github.com/ansible/ansible#egg=ansible-core
               vault-version:
                 - 1.7.0
@@ -70,7 +70,7 @@ workflows:
           matrix:
             parameters:
               ansible-version:
-                - ansible-core==2.11.0rc2
+                - ansible-core>=2.11<=2.12
               vault-version:
                 - 1.5.7
                 - 1.6.3
