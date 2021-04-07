@@ -8,7 +8,7 @@ plugins for interacting with [HashiCorp Vault](https://vaultproject.io/).
 ## Dependencies
 
 These plugins use standard Ansible features and require no extra
-dependencies on the controller or target hosts.
+dependencies on the control node or target.
 
 ## Supported Ansible Versions
 
