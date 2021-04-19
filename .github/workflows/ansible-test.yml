@@ -32,6 +32,15 @@ jobs:
       - name: Build collection
         run: ansible-galaxy collection build -vv
 
+      - name: Install collection
+        run: ansible-galaxy collection install ${{ env.COLL_NS }}-${{ env.COLL_NAME }}-*.tar.gz
+
+      - name: Make sure metadata is up to date
+        run: |
+          ./update-meta.py
+          git diff
+          git status --porcelain | grep -q '^ M' && exit 1 || exit 0
+
       - name: Upload collection
         uses: actions/upload-artifact@v2
         with:

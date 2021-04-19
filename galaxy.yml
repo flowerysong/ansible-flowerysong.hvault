@@ -16,3 +16,6 @@ description: Plugins for interacting with HashiCorp Vault
 
 repository: https://github.com/flowerysong/ansible-flowerysong.hvault
 issues: https://github.com/flowerysong/ansible-flowerysong.hvault/issues
+
+build_ignore:
+  - update-meta.py
