@@ -115,6 +115,13 @@ RETURN = '''
 from ..module_utils.module import HVaultModule
 
 
+class AppRoleModule(HVaultModule):
+    def mangle_result(self, result):
+        if not self.module.check_mode:
+            result.update(self.client.get(self._path + '/role-id')['data'])
+        return result
+
+
 def main():
     argspec = dict(
         mount_point=dict(
@@ -196,7 +203,7 @@ def main():
         ),
     )
 
-    module = HVaultModule(
+    module = AppRoleModule(
         argspec=argspec,
         optspec=optspec,
     )

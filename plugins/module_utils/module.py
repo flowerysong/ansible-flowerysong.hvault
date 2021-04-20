@@ -15,6 +15,20 @@ from ..module_utils.base import (
 )
 
 
+def optspec_to_config(optspec, params, join_lists=False):
+    config = {}
+    for (k, conf) in optspec.items():
+        v = params[k]
+        if conf.get('type') == 'list' and join_lists:
+            if v:
+                config[k] = ','.join(v)
+            else:
+                config[k] = ''
+        else:
+            config[k] = v
+    return config
+
+
 class HVaultModule():
     def __init__(self, argspec, optspec):
         _argspec = hvault_argument_spec()
@@ -44,8 +58,12 @@ class HVaultModule():
     def mangle_config(self, config):
         return config
 
+    def mangle_result(self, result):
+        return result
+
     def run(self, path_fmt, config, result_key='role', bad_keys=None, join_lists=False):
         path = path_fmt.format(self.params['mount_point'].rstrip('/'), self.params['name'])
+        self._path = path
 
         changed = False
         try:
@@ -63,16 +81,7 @@ class HVaultModule():
                     self.client.delete(path)
             self.module.exit_json(changed=changed)
 
-        for (k, conf) in self.optspec.items():
-            v = self.params[k]
-            if conf.get('type') == 'list' and join_lists:
-                if v:
-                    config[k] = ','.join(v)
-                else:
-                    config[k] = ''
-            else:
-                config[k] = v
-
+        config.update(optspec_to_config(self.optspec, self.params, join_lists))
         config = self.mangle_config(config)
 
         if config != result:
@@ -86,5 +95,5 @@ class HVaultModule():
             result = self.client.get(path)['data']
 
         kwargs = {}
-        kwargs[result_key] = result
+        kwargs[result_key] = self.mangle_result(result)
         self.module.exit_json(changed=changed, **kwargs)

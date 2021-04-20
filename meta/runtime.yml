@@ -1,6 +1,8 @@
 action_groups:
   hvault:
   - flowerysong.hvault.approle_role
+  - flowerysong.hvault.approle_secret_id
+  - flowerysong.hvault.auth_approle
   - flowerysong.hvault.auth_method
   - flowerysong.hvault.auth_method_info
   - flowerysong.hvault.delete
