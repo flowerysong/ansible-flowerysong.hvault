@@ -11,7 +11,10 @@ import os
 
 from ansible.module_utils.basic import env_fallback
 from ansible.module_utils.common.text.converters import jsonify
-from ansible.module_utils.six.moves.urllib.error import URLError
+from ansible.module_utils.six.moves.urllib.error import (
+    HTTPError,
+    URLError,
+)
 from ansible.module_utils.urls import open_url
 
 
@@ -89,6 +92,23 @@ class HVaultClient():
             if result:
                 return json.loads(result)
             return None
+
+        except HTTPError as e:
+            if fatal and self._module:
+                msg = 'Failed to {0} {1}: {2} (HTTP {3})'.format(method, path, e.reason, e.code)
+                result = {}
+                try:
+                    result = json.loads(e.read())
+                except Exception:   # oop
+                    pass
+                failure = {
+                    'msg': msg,
+                    'headers': str(e.headers),
+                    'result': result,
+                }
+                self._module.fail_json(**failure)
+            raise
+
         except URLError as e:
             if fatal and self._module:
                 self._module.fail_json(msg='Failed to {0} {1}: {2}'.format(method, path, e.reason))

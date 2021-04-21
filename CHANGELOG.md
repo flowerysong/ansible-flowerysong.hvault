@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 ### Changed
+- Added more information to the module return when an HTTP error causes the
+  module to fail.
 
 ### Fixed
 
