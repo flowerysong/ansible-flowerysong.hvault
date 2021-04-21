@@ -27,7 +27,7 @@
   block:
     - name: Initialize Vault
       flowerysong.hvault.init:
-        url: "{{ vault_url }}"
+        vault_addr: "{{ vault_addr }}"
         secret_shares: 5
         secret_threshold: 2
       register: result
@@ -43,7 +43,7 @@
 
     - name: Unseal Vault
       flowerysong.hvault.seal:
-        url: "{{ vault_url }}"
+        vault_addr: "{{ vault_addr }}"
         state: unsealed
         keys: "{{ vault_unseal_keys }}"
   rescue:

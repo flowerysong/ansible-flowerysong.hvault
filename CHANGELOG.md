@@ -4,10 +4,12 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- `ldap_config` module.
 
 ### Changed
 - Added more information to the module return when an HTTP error causes the
   module to fail.
+- Renamed the `url` parameter to `vault_addr`.
 
 ### Fixed
 

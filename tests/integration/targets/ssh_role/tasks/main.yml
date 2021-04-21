@@ -2,11 +2,11 @@
     name: setup_vault
 
 - environment:
-    VAULT_ADDR: "{{ vault_url }}"
+    VAULT_ADDR: "{{ vault_addr }}"
     VAULT_TOKEN: "{{ vault_root_token }}"
   vars:
     vault_conf:
-      url: "{{ vault_url }}"
+      vault_addr: "{{ vault_addr }}"
       token: "{{ vault_root_token }}"
   block:
     - name: Create the SSH mounts

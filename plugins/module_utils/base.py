@@ -20,7 +20,7 @@ from ansible.module_utils.urls import open_url
 
 def hvault_argument_spec():
     return dict(
-        url=dict(
+        vault_addr=dict(
             default='https://localhost:8200',
             fallback=(env_fallback, ['VAULT_ADDR']),
         ),
@@ -46,6 +46,62 @@ def hvault_argument_spec():
     )
 
 
+def hvault_token_argument_spec():
+    return dict(
+        token_ttl=dict(
+            type='int',
+            default=0,
+            no_log=False,
+        ),
+        token_max_ttl=dict(
+            type='int',
+            default=0,
+            no_log=False,
+        ),
+        token_policies=dict(
+            type='list',
+            elements='str',
+            default=[],
+            no_log=False,
+        ),
+        token_bound_cidrs=dict(
+            type='list',
+            elements='str',
+            default=[],
+            no_log=False,
+        ),
+        token_explicit_max_ttl=dict(
+            type='int',
+            default=0,
+            no_log=False,
+        ),
+        token_no_default_policy=dict(
+            type='bool',
+            default=False,
+            no_log=False,
+        ),
+        token_num_uses=dict(
+            type='int',
+            default=0,
+            no_log=False,
+        ),
+        token_period=dict(
+            type='int',
+            default=0,
+            no_log=False,
+        ),
+        token_type=dict(
+            choices=[
+                'default',
+                'service',
+                'batch',
+            ],
+            default='default',
+            no_log=False,
+        ),
+    )
+
+
 def hvault_compare(dict1, dict2):
     ignore_keys = frozenset(('accessor', 'uuid'))
     for key in ((set(dict1.keys()) | set(dict2.keys())) - ignore_keys):
@@ -60,7 +116,7 @@ class HVaultClient():
     def __init__(self, params, module=None):
         self._module = module
         self.params = params
-        self.params['url'] = params['url'].rstrip('/')
+        self.params['vault_addr'] = params['vault_addr'].rstrip('/')
         if not params['token']:
             token_file = os.path.expanduser('~/.vault-token')
             if os.path.isfile(token_file):
@@ -68,7 +124,7 @@ class HVaultClient():
                     self.params['token'] = f.read().strip()
 
     def _open_url(self, path, method, data=None, fatal=True):
-        url = '{0}/v1/{1}'.format(self.params['url'], path)
+        url = '{0}/v1/{1}'.format(self.params['vault_addr'], path)
 
         headers = {}
         if self.params.get('token'):

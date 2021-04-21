@@ -2,7 +2,7 @@
     name: setup_vault
 
 - environment:
-    VAULT_ADDR: "{{ vault_url }}"
+    VAULT_ADDR: "{{ vault_addr }}"
     VAULT_TOKEN: "{{ vault_root_token }}"
   block:
     - name: Get mounted auth_methods

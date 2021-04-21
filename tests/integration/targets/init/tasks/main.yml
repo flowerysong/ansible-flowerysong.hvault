@@ -4,7 +4,7 @@
     vault_init: false
 
 - environment:
-    VAULT_ADDR: "{{ vault_url }}"
+    VAULT_ADDR: "{{ vault_addr }}"
   block:
     - name: Pretend to initialize Vault
       flowerysong.hvault.init:

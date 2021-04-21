@@ -62,7 +62,7 @@ class HVaultModule():
         return result
 
     def run(self, path_fmt, config, result_key='role', bad_keys=None, join_lists=False):
-        path = path_fmt.format(self.params['mount_point'].rstrip('/'), self.params['name'])
+        path = path_fmt.format(self.params['mount_point'].strip('/'), self.params['name'])
         self._path = path
 
         changed = False

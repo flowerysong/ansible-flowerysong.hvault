@@ -10,7 +10,7 @@ __metaclass__ = type
 class ModuleDocFragment(object):
     DOCUMENTATION = '''
 options:
-  url:
+  vault_addr:
     description:
       - Location of the Vault service.
     type: str
@@ -58,7 +58,7 @@ options:
     # to add ini and vars as configuration sources.
     PLUGINS = '''
 options:
-  url:
+  vault_addr:
     env:
       - name: VAULT_ADDR
     ini:

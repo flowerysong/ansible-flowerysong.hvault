@@ -11,6 +11,7 @@ action_groups:
   - flowerysong.hvault.init
   - flowerysong.hvault.kv
   - flowerysong.hvault.kv_v2
+  - flowerysong.hvault.ldap_config
   - flowerysong.hvault.list
   - flowerysong.hvault.policy
   - flowerysong.hvault.policy_info

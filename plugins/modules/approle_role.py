@@ -17,6 +17,7 @@ version_added: 0.1.0
 extends_documentation_fragment:
   - flowerysong.hvault.base
   - flowerysong.hvault.role
+  - flowerysong.hvault.token
 options:
   mount_point:
     default: approle
@@ -42,68 +43,6 @@ options:
     default: 0
     description:
       - Duration in seconds after which a SecretID expires.
-  token_ttl:
-    type: int
-    default: 0
-    description:
-      - The incremental lifetime for renewed tokens.
-  token_max_ttl:
-    type: int
-    default: 0
-    description:
-      - The maximum lifetime for generated tokens.
-  token_policies:
-    type: list
-    elements: str
-    default: []
-    description:
-      - List of policies to add to generated tokens.
-      - Depending on the auth method, this list may be supplemented by
-        user/group/other values.
-  token_bound_cidrs:
-    type: list
-    elements: str
-    default: []
-    description:
-      - CIDR blocks that are allowed to authenticate.
-      - The resulting token will also be tied to these blocks.
-  token_explicit_max_ttl:
-    type: int
-    default: 0
-    description:
-      - Explicit max TTL for generated tokens.
-      - This is a hard cap even if I(token_ttl) and I(token_max_ttl) would
-        still allow a renewal.
-  token_no_default_policy:
-    type: bool
-    default: false
-    description:
-      - Disable adding the default policy to generated tokens.
-      - Normally this policy is added in addition to the explicit policies in
-        I(token_policies).
-  token_num_uses:
-    type: int
-    default: 0
-    description:
-      - The maximum number of times a generated token can be used.
-      - C(0) is unlimited.
-      - If this is set to a non-zero value the token will not be able to create
-        child tokens.
-  token_period:
-    type: int
-    default: 0
-    description:
-      - The period to set on the token.
-  token_type:
-    description:
-      - Type of token that should be returned.
-      - C(default) uses the setting from the mount.
-    type: str
-    choices:
-      - default
-      - service
-      - batch
-    default: default
 '''
 
 EXAMPLES = '''
@@ -112,6 +51,7 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
+from ..module_utils.base import hvault_token_argument_spec
 from ..module_utils.module import HVaultModule
 
 
@@ -129,78 +69,31 @@ def main():
         ),
     )
 
-    optspec = dict(
-        bind_secret_id=dict(
-            type='bool',
-            default=True,
-        ),
-        secret_id_bound_cidrs=dict(
-            type='list',
-            elements='str',
-            default=[],
-            no_log=False,
-        ),
-        secret_id_num_uses=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        secret_id_ttl=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_ttl=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_max_ttl=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_policies=dict(
-            type='list',
-            elements='str',
-            default=[],
-            no_log=False,
-        ),
-        token_bound_cidrs=dict(
-            type='list',
-            elements='str',
-            default=[],
-            no_log=False,
-        ),
-        token_explicit_max_ttl=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_no_default_policy=dict(
-            type='bool',
-            default=False,
-            no_log=False,
-        ),
-        token_num_uses=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_period=dict(
-            type='int',
-            default=0,
-            no_log=False,
-        ),
-        token_type=dict(
-            choices=[
-                'default',
-                'service',
-                'batch',
-            ],
-            default='default',
-            no_log=False,
-        ),
+    optspec = hvault_token_argument_spec()
+
+    optspec.update(
+        dict(
+            bind_secret_id=dict(
+                type='bool',
+                default=True,
+            ),
+            secret_id_bound_cidrs=dict(
+                type='list',
+                elements='str',
+                default=[],
+                no_log=False,
+            ),
+            secret_id_num_uses=dict(
+                type='int',
+                default=0,
+                no_log=False,
+            ),
+            secret_id_ttl=dict(
+                type='int',
+                default=0,
+                no_log=False,
+            ),
+        )
     )
 
     module = AppRoleModule(
