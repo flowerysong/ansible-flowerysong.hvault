@@ -41,7 +41,6 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six.moves.urllib.error import URLError
 
 from ..module_utils.base import (
     HVaultClient,

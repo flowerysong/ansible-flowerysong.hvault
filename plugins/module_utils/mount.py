@@ -70,7 +70,7 @@ class HVaultMountModule():
                 self.module.exit_json(changed=False)
 
             if not self.module.check_mode:
-                result = self.client.delete('{0}/{1}'.format(self.base_path, path))
+                self.client.delete('{0}/{1}'.format(self.base_path, path))
             self.module.exit_json(changed=True, mount=mount)
 
         changed = False
