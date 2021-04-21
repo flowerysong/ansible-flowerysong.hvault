@@ -2,8 +2,13 @@
 
 [![ansible-test](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml/badge.svg)](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml)
 
-This [Ansible](https://www.ansible.com/) Collection implements a number of
-plugins for interacting with [HashiCorp Vault](https://vaultproject.io/).
+This [Ansible](https://www.ansible.com/) Collection implements
+a number of plugins for interacting with [HashiCorp
+Vault](https://vaultproject.io/). A complete set of low-level
+operations (read, write, list, and delete) are available, so
+functionality which does not yet have a higher-level interface should
+still be possible to use. The implementation of high-level interfaces
+prioritizes the subset of Vault functionality that I use.
 
 ## Dependencies
 
