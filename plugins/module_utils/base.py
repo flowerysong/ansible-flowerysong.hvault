@@ -102,13 +102,20 @@ def hvault_token_argument_spec():
     )
 
 
-def hvault_compare(dict1, dict2):
-    ignore_keys = frozenset(('accessor', 'uuid'))
-    for key in ((set(dict1.keys()) | set(dict2.keys())) - ignore_keys):
+def hvault_compare(dict1, dict2, ignore_keys=None, unsorted_keys=None):
+    for key in ((set(dict1.keys()) | set(dict2.keys())) - set(ignore_keys or [])):
         v1 = dict1.get(key)
         v2 = dict2.get(key)
-        if (v1 or v2) and (v1 != v2):
-            return False
+        if (v1 or v2):
+            if key in (unsorted_keys or []):
+                if v1 and not isinstance(v1, list):
+                    v1 = v1.split(',')
+                if v2 and not isinstance(v2, list):
+                    v2 = v2.split(',')
+                if sorted(v1 or []) != sorted(v2 or []):
+                    return False
+            elif (v1 != v2):
+                return False
     return True
 
 

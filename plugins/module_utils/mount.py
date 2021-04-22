@@ -100,7 +100,7 @@ class HVaultMountModule():
             if not self.module.check_mode:
                 self.client.post(mount_path, data=payload)
                 mount = self._get_mount(path)
-        elif not hvault_compare(mount, payload):
+        elif not hvault_compare(mount, payload, ignore_keys=['accessor', 'uuid']):
             changed = True
             if not self.module.check_mode:
                 if mount['type'] != payload['type']:

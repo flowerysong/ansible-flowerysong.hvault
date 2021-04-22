@@ -156,10 +156,12 @@ def main():
         allowed_users=dict(
             type='list',
             elements='str',
+            join=True,
         ),
         allowed_domains=dict(
             type='list',
             elements='str',
+            join=True,
         ),
         ttl=dict(
             type='int',
@@ -172,10 +174,12 @@ def main():
         allowed_critical_options=dict(
             type='list',
             elements='str',
+            join=True,
         ),
         allowed_extensions=dict(
             type='list',
             elements='str',
+            join=True,
         ),
         default_critical_options=dict(
             type='dict',
@@ -233,7 +237,6 @@ def main():
             key_type='ca',
             allowed_users_template=False,
         ),
-        join_lists=True,
     )
 
 

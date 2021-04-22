@@ -165,6 +165,7 @@ from ..module_utils.base import (
     hvault_token_argument_spec,
 )
 from ..module_utils.module import (
+    optspec_to_argspec,
     optspec_to_config,
 )
 
@@ -186,6 +187,7 @@ def main():
                 type='list',
                 elements='str',
                 required=True,
+                join=True,
             ),
             case_sensitive_names=dict(
                 type='bool',
@@ -246,7 +248,7 @@ def main():
             ),
         )
     )
-    argspec.update(optspec)
+    argspec.update(optspec_to_argspec(optspec))
 
     module = AnsibleModule(
         supports_check_mode=True,
@@ -261,13 +263,11 @@ def main():
         if k not in config:
             config[k] = None
 
-    new_config = optspec_to_config(optspec, module.params, True)
+    new_config = optspec_to_config(optspec, module.params)
     new_config['use_pre111_group_cn_behavior'] = False
-    if 'request_timeout' not in config:
-        config['request_timeout'] = new_config['request_timeout']
 
     changed = False
-    if not hvault_compare(config, new_config):
+    if not hvault_compare(config, new_config, ignore_keys=['request_timeout']):
         changed = True
         if module.check_mode:
             config = new_config

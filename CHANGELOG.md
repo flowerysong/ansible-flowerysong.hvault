@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - `ldap_config` module.
+- `ldap_group` module.
+- `ldap_user` module.
 
 ### Changed
 - Added more information to the module return when an HTTP error causes the
