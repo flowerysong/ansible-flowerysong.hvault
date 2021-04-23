@@ -93,19 +93,17 @@ jobs:
         ansible_version:
           - name: ansible-core 2.11
             version: ansible-core>2.11<2.12
+          - name: ansible-core devel
+            version: git+https://github.com/ansible/ansible#egg=ansible-core
         vault_version:
-          - 1.5.7
-          - 1.6.3
-          - 1.7.0
+          - 1.5.8
+          - 1.6.4
+          - 1.7.1
         include:
           - ansible_version:
               name: ansible-base 2.10
               version: ansible-base>2.10<2.11
-            vault_version: 1.7.0
-          - ansible_version:
-              name: ansible-core devel
-              version: git+https://github.com/ansible/ansible#egg=ansible-core
-            vault_version: 1.7.0
+            vault_version: 1.7.1
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
