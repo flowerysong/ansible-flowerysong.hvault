@@ -81,7 +81,7 @@ jobs:
         run: ansible-galaxy collection install ${{ env.COLL_NS }}-${{ env.COLL_NAME }}-*.tar.gz
 
       - name: Run tests
-        run: ansible-test sanity -v --color --python ${{ env.PYTHON_VERSION }}
+        run: ansible-test sanity -v --color --docker
         working-directory: ./ansible_collections/${{ env.COLL_NS }}/${{ env.COLL_NAME }}
 
   integration:

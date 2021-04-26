@@ -62,7 +62,7 @@ class HVaultModule():
         self.module = AnsibleModule(
             supports_check_mode=True,
             argument_spec=_argspec,
-            **kwargs,
+            **kwargs
         )
         self.params = self.module.params
         self.client = HVaultClient(self.params, self.module)
