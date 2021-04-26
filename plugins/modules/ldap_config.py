@@ -149,7 +149,7 @@ EXAMPLES = '''
     userdn: ou=People,dc=umich,dc=edu
     userattr: cn
     groupdn: ou=User Groups,ou=Groups,dc=umich,dc=edu
-#    groupfilter: !unsafe (member={{.UserDN}})
+    groupfilter: !unsafe (member={{.UserDN}})
     groupattr: cn
 '''
 

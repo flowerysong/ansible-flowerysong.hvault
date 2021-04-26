@@ -7,6 +7,7 @@ plugins/lookup/list.py compile-2.6!skip # Controller-only, requires 3.x
 plugins/lookup/list.py compile-2.7!skip # Controller-only, requires 3.x
 plugins/lookup/list.py import-2.7!skip # Controller-only, requires 3.x
 plugins/lookup/read.py import-2.7!skip # Controller-only, requires 3.x
+plugins/modules/ldap_config.py validate-modules:invalid-examples # !unsafe
 plugins/plugin_utils/lookup.py compile-2.6!skip # Controller-only, requires 3.x
 plugins/plugin_utils/lookup.py compile-2.7!skip # Controller-only, requires 3.x
 plugins/plugin_utils/lookup.py import-2.7!skip # Controller-only, requires 3.x
