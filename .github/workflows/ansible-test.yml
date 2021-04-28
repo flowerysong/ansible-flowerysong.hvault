@@ -49,17 +49,13 @@ jobs:
 
   static_analysis:
     needs: build_collection
-    name: static analysis (${{ matrix.ansible_version.name }})
+    name: static analysis (${{ matrix.ansible_version }})
     strategy:
       fail-fast: false
       matrix:
         ansible_version:
-          - name: ansible-base 2.10
-            version: ansible-base>2.10<2.11
-          - name: ansible-core stable-2.11
-            version: git+https://github.com/ansible/ansible@stable-2.11#egg=ansible-core
-          - name: ansible-core devel
-            version: git+https://github.com/ansible/ansible#egg=ansible-core
+          - stable-2.11
+          - devel
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -70,7 +66,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install '${{ matrix.ansible_version.version }}' pycodestyle pylint pyyaml voluptuous yamllint junit-xml
+          python -m pip install 'git+https://github.com/ansible/ansible@${{ matrix.ansible_version }}#egg=ansible-core' pycodestyle pylint pyyaml voluptuous yamllint junit-xml
 
       - name: Download collection
         uses: actions/download-artifact@v2
@@ -85,36 +81,50 @@ jobs:
         working-directory: ./ansible_collections/${{ env.COLL_NS }}/${{ env.COLL_NAME }}
 
   integration:
-    name: integration (Vault ${{ matrix.vault_version }}, ${{ matrix.ansible_version.name }})
+    name: integration (${{ matrix.ansible_version }}, py${{ matrix.python_version }}, Vault ${{ matrix.vault_version }})
     needs: build_collection
     strategy:
       fail-fast: false
       matrix:
+        python_version:
+          - 3.8
         ansible_version:
-          - name: ansible-core stable-2.11
-            version: git+https://github.com/ansible/ansible@stable-2.11#egg=ansible-core
-          - name: ansible-core devel
-            version: git+https://github.com/ansible/ansible#egg=ansible-core
+          - stable-2.11
+          - devel
         vault_version:
-          - 1.5.8
-          - 1.6.4
           - 1.7.1
         include:
-          - ansible_version:
-              name: ansible-base 2.10
-              version: ansible-base>2.10<2.11
+          # More Python versions
+          - python_version: 2.7
+            ansible_version: stable-2.11
             vault_version: 1.7.1
+          - python_version: 3.6
+            ansible_version: devel
+            vault_version: 1.7.1
+          - python_version: 3.7
+            ansible_version: devel
+            vault_version: 1.7.1
+          - python_version: 3.9
+            ansible_version: devel
+            vault_version: 1.7.1
+          # More Vault versions
+          - python_version: 3.8
+            ansible_version: devel
+            vault_version: 1.5.8
+          - python_version: 3.8
+            ansible_version: devel
+            vault_version: 1.6.4
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ matrix.python_version }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install '${{ matrix.ansible_version.version }}' pyyaml junit-xml
+          python -m pip install 'git+https://github.com/ansible/ansible@${{ matrix.ansible_version }}#egg=ansible-core' pyyaml junit-xml
 
       - name: Download collection
         uses: actions/download-artifact@v2

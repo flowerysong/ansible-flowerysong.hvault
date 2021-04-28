@@ -17,9 +17,12 @@ dependencies on the control node or target.
 
 ## Supported Ansible Versions
 
-This collection is tested with Python 3.8 on ansible-base 2.10,
-ansible-core 2.11, and ansible-core devel. Other versions may or may
-not work.
+This collection is tested against the stable-2.11 and devel branches
+of ansible-core. Other versions may or may not work.
+
+Controller-only plugins like lookups are tested with Python 3.6, 3.7,
+3.8, and 3.9. Modules are tested with the same versions, plus Python
+2.7.
 
 ## Supported Vault Versions
 
