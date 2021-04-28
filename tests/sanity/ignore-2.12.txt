@@ -1,6 +1,0 @@
-plugins/lookup/auth_approle.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/lookup/auth_approle.py compile-2.7!skip # Controller-only, requires 3.x
-plugins/lookup/list.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/lookup/list.py compile-2.7!skip # Controller-only, requires 3.x
-plugins/plugin_utils/lookup.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/plugin_utils/lookup.py compile-2.7!skip # Controller-only, requires 3.x
