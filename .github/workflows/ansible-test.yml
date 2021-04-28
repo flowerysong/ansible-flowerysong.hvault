@@ -51,7 +51,6 @@ jobs:
     needs: build_collection
     name: static analysis (${{ matrix.ansible_version.name }})
     strategy:
-      fail-fast: true
       matrix:
         ansible_version:
           - name: ansible-base 2.10
