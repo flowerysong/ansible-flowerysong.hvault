@@ -1,7 +1,27 @@
-plugins/lookup/auth_approle.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/lookup/auth_approle.py compile-2.7!skip # Controller-only, requires 3.x
-plugins/lookup/list.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/lookup/list.py compile-2.7!skip # Controller-only, requires 3.x
+plugins/doc_fragments/base.py future-import-boilerplate # python 3.x-only
+plugins/doc_fragments/base.py metaclass-boilerplate # python 3.x-only
+plugins/doc_fragments/mount.py future-import-boilerplate # python 3.x-only
+plugins/doc_fragments/mount.py metaclass-boilerplate # python 3.x-only
+plugins/doc_fragments/role.py future-import-boilerplate # python 3.x-only
+plugins/doc_fragments/role.py metaclass-boilerplate # python 3.x-only
+plugins/doc_fragments/token.py future-import-boilerplate # python 3.x-only
+plugins/doc_fragments/token.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/auth_approle.py compile-2.6!skip # python 3.x-only
+plugins/lookup/auth_approle.py compile-2.7!skip # python 3.x-only
+plugins/lookup/auth_approle.py future-import-boilerplate # python 3.x-only
+plugins/lookup/auth_approle.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/kv.py future-import-boilerplate # python 3.x-only
+plugins/lookup/kv.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/kv_v2.py future-import-boilerplate # python 3.x-only
+plugins/lookup/kv_v2.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/list.py compile-2.6!skip # python 3.x-only
+plugins/lookup/list.py compile-2.7!skip # python 3.x-only
+plugins/lookup/list.py future-import-boilerplate # python 3.x-only
+plugins/lookup/list.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/read.py future-import-boilerplate # python 3.x-only
+plugins/lookup/read.py metaclass-boilerplate # python 3.x-only
 plugins/modules/ldap_config.py validate-modules:invalid-examples # !unsafe
-plugins/plugin_utils/lookup.py compile-2.6!skip # Controller-only, requires 3.x
-plugins/plugin_utils/lookup.py compile-2.7!skip # Controller-only, requires 3.x
+plugins/plugin_utils/lookup.py compile-2.6!skip # python 3.x-only
+plugins/plugin_utils/lookup.py compile-2.7!skip # python 3.x-only
+plugins/plugin_utils/lookup.py future-import-boilerplate # python 3.x-only
+plugins/plugin_utils/lookup.py metaclass-boilerplate # python 3.x-only
