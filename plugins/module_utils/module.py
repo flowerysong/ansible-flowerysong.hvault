@@ -35,7 +35,7 @@ def optspec_to_argspec(optspec):
     for (k, v) in optspec.items():
         dup_v = v.copy()
         dup_v.pop('join', None)
-        dup_v.pop('unsorted', None)
+        dup_v.pop('sorted', None)
         filtered[k] = dup_v
     return filtered
 
@@ -99,7 +99,7 @@ class HVaultModule():
         if not hvault_compare(
             config, result,
             ignore_keys=bad_keys,
-            unsorted_keys=[k for (k, v) in self.optspec.items() if v.get('unsorted')],
+            unsorted_keys=[k for (k, v) in self.optspec.items() if (v.get('type') == 'list') and not v.get('sorted')],
         ):
             changed = True
             if not self.module.check_mode:

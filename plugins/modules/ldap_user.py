@@ -82,14 +82,12 @@ def main():
             type='list',
             elements='str',
             default=[],
-            unsorted=True,
         ),
         groups=dict(
             type='list',
             elements='str',
             default=[],
             join=True,
-            unsorted=True,
         ),
     )
 

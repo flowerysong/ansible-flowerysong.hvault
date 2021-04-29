@@ -6,6 +6,8 @@ action_groups:
   - flowerysong.hvault.auth_method
   - flowerysong.hvault.auth_method_info
   - flowerysong.hvault.aws_auth_role
+  - flowerysong.hvault.aws_secret_role_iam
+  - flowerysong.hvault.aws_secret_role_sts
   - flowerysong.hvault.delete
   - flowerysong.hvault.engine
   - flowerysong.hvault.engine_info

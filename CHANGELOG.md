@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- `aws_auth_role` module.
+- `aws_secret_role_iam` module.
+- `aws_secret_role_sts` module.
 - `ldap_config` module.
 - `ldap_group` module.
 - `ldap_user` module.

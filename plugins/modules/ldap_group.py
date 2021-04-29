@@ -71,7 +71,6 @@ def main():
         policies=dict(
             type='list',
             elements='str',
-            unsorted=True,
         ),
     )
 

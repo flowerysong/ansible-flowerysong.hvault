@@ -125,47 +125,38 @@ def main():
             bound_ami_id=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_account_id=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_region=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_vpc_id=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_subnet_id=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_iam_role_arn=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_iam_instance_profile_arn=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_ec2_instance_id=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             bound_iam_principal_arn=dict(
                 type='list',
                 elements='str',
-                unsorted=True,
             ),
             inferred_entity_type=dict(
                 choices=["ec2_instance"],

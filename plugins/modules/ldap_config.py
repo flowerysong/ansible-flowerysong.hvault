@@ -188,6 +188,7 @@ def main():
                 elements='str',
                 required=True,
                 join=True,
+                sorted=True,
             ),
             case_sensitive_names=dict(
                 type='bool',
