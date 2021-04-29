@@ -22,4 +22,4 @@ action_groups:
   - flowerysong.hvault.seal
   - flowerysong.hvault.ssh_role
   - flowerysong.hvault.write
-requires_ansible: '>=2.10'
+requires_ansible: '>=2.11'
