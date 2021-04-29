@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.2.0] - 2021-04-28
 
 ### Added
 - `aws_auth_role` module.
@@ -15,8 +15,6 @@ All notable changes to this project will be documented in this file.
 - Added more information to the module return when an HTTP error causes the
   module to fail.
 - Renamed the `url` parameter to `vault_addr`.
-
-### Fixed
 
 ## [0.1.0] - 2021-04-21
 
