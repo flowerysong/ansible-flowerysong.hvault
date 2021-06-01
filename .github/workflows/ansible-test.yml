@@ -95,21 +95,21 @@ jobs:
           - stable-2.11
           - devel
         vault_version:
-          - 1.7.1
+          - 1.7.2
         include:
           # More Python versions
           - python_version: 2.7
             ansible_version: stable-2.11
-            vault_version: 1.7.1
+            vault_version: 1.7.2
           - python_version: 3.6
             ansible_version: devel
-            vault_version: 1.7.1
+            vault_version: 1.7.2
           - python_version: 3.7
             ansible_version: devel
-            vault_version: 1.7.1
+            vault_version: 1.7.2
           - python_version: 3.9
             ansible_version: devel
-            vault_version: 1.7.1
+            vault_version: 1.7.2
           # More Vault versions
           - python_version: 3.8
             ansible_version: devel
