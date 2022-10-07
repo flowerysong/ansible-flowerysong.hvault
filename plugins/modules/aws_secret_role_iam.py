@@ -20,6 +20,7 @@ seealso:
 version_added: 0.2.0
 extends_documentation_fragment:
   - flowerysong.hvault.base
+  - flowerysong.hvault.auth_token
   - flowerysong.hvault.role
 options:
   mount_point:

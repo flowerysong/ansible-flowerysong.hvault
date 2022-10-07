@@ -55,7 +55,7 @@ from ..plugin_utils.lookup import HVaultLookupBase
 
 class LookupModule(HVaultLookupBase):
     def run(self, terms, variables=None, **kwargs):
-        self.set_options(direct=kwargs)
+        self.init_options(variables=variables, direct=kwargs)
         self.config_client()
 
         url = '/'.join(['auth', self.get_option('mount_point').strip('/'), 'login'])

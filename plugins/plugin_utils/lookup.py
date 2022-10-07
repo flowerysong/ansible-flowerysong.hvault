@@ -20,14 +20,20 @@ class HVaultLookupBase(LookupBase):
     def config_client(self):
         client_opts = {}
         for opt in hvault_argument_spec():
-            client_opts[opt] = self.get_option(opt)
+            try:
+                client_opts[opt] = self._templar.template(self.get_option(opt), fail_on_undefined=True)
+            except KeyError:
+                client_opts[opt] = None
 
         self.client = HVaultClient(client_opts)
 
+    def init_options(self, variables, direct):
+        if variables is not None:
+            self._templar.available_variables = variables
+        self.set_options(var_options=variables, direct=direct)
+
     def run(self, terms, variables=None, **kwargs):
         ret = []
-
-        self.config_client()
 
         for term in terms:
             display.debug('flowerysong.hvault lookup term: {0}'.format(term))

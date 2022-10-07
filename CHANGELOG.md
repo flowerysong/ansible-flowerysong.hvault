@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Fixed
+- plugin options now resolve templated values
 
 ## [0.2.0] - 2021-04-28
 

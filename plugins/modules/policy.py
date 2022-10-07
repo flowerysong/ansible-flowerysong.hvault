@@ -16,6 +16,7 @@ description:
 version_added: 0.1.0
 extends_documentation_fragment:
   - flowerysong.hvault.base
+  - flowerysong.hvault.auth_token
 options:
   name:
     description:

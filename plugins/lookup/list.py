@@ -19,6 +19,8 @@ options:
 extends_documentation_fragment:
   - flowerysong.hvault.base
   - flowerysong.hvault.base.PLUGINS
+  - flowerysong.hvault.auth_token
+  - flowerysong.hvault.auth_token.PLUGINS
 """
 
 EXAMPLES = """
@@ -46,7 +48,7 @@ display = Display()
 
 class LookupModule(HVaultLookupBase):
     def run(self, terms, variables=None, **kwargs):
-        self.set_options(direct=kwargs)
+        self.init_options(variables=variables, direct=kwargs)
         self.config_client()
 
         ret = []

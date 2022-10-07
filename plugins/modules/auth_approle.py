@@ -51,6 +51,7 @@ from ..module_utils.module import optspec_to_config
 
 def main():
     argspec = hvault_argument_spec()
+    argspec.pop('token')
     argspec.update(
         dict(
             mount_point=dict(
@@ -75,6 +76,7 @@ def main():
         argument_spec=argspec,
     )
 
+    module.params['token'] = None
     client = HVaultClient(module.params, module)
 
     base_path = '/'.join([

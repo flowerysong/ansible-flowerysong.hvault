@@ -12,11 +12,6 @@ options:
       - Location of the Vault service.
     type: str
     default: https://localhost:8200
-  token:
-    description:
-      - Authentication token to use.
-      - If this is not set then the contents of C(~/.vault-token) will be checked.
-    type: str
   http_agent:
     description:
       - Header to identify as, generally appears in web server logs.
@@ -63,14 +58,6 @@ options:
         key: url
     vars:
       - name: ansible_hvault_addr
-  token:
-    env:
-      - name: VAULT_TOKEN
-    ini:
-      - section: hvault
-        key: token
-    vars:
-      - name: ansible_hvault_token
   http_agent:
     ini:
       - section: hvault

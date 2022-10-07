@@ -69,7 +69,7 @@ class LookupModule(HVaultLookupBase):
         if BOTOCORE_IMPORT_ERROR:
             raise AnsibleError('This plugin requires botocore') from BOTOCORE_IMPORT_ERROR
 
-        self.set_options(direct=kwargs)
+        self.init_options(variables=variables, direct=kwargs)
         self.config_client()
 
         boto_client = botocore.session.get_session().create_client('sts')
