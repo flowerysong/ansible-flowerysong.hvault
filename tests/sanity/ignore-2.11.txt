@@ -11,6 +11,11 @@ plugins/lookup/auth_approle.py compile-2.7!skip # python 3.x-only
 plugins/lookup/auth_approle.py future-import-boilerplate # python 3.x-only
 plugins/lookup/auth_approle.py import-2.7!skip # python 3.x-only
 plugins/lookup/auth_approle.py metaclass-boilerplate # python 3.x-only
+plugins/lookup/auth_aws.py compile-2.6!skip # python 3.x-only
+plugins/lookup/auth_aws.py compile-2.7!skip # python 3.x-only
+plugins/lookup/auth_aws.py future-import-boilerplate # python 3.x-only
+plugins/lookup/auth_aws.py import-2.7!skip # python 3.x-only
+plugins/lookup/auth_aws.py metaclass-boilerplate # python 3.x-only
 plugins/lookup/kv.py future-import-boilerplate # python 3.x-only
 plugins/lookup/kv.py import-2.7!skip # python 3.x-only
 plugins/lookup/kv.py metaclass-boilerplate # python 3.x-only
