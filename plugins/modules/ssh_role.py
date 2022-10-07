@@ -119,6 +119,11 @@ options:
       - rsa-sha2-256
       - rsa-sha2-512
     default: rsa-sha2-512
+  not_before_duration:
+    description:
+      - Amount to backdate the ValidAfter property, in seconds.
+    type: int
+    default: 30
 '''
 
 EXAMPLES = '''
@@ -137,6 +142,9 @@ class SSHRoleModule(HVaultModule):
 
         if '{{' in (config.get('allowed_users') or ''):
             config['allowed_users_template'] = True
+
+        if '{{' in (config.get('default_extensions') or ''):
+            config['default_extensions_template'] = True
 
         if not config['allow_host_certificates'] and not config['allow_user_certificates']:
             self.module.fail_json(msg="At least one of 'allow_host_certificates' and 'allow_user_certificates' must be true.")
@@ -223,6 +231,10 @@ def main():
             choices=['ssh-rsa', 'rsa-sha2-256', 'rsa-sha2-512'],
             default='rsa-sha2-512',
         ),
+        not_before_duration=dict(
+            type='int',
+            default=30,
+        )
     )
 
     module = SSHRoleModule(

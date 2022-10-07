@@ -17,18 +17,14 @@ dependencies on the control node or target.
 
 ## Supported Ansible Versions
 
-This collection is tested against the stable-2.11, stable-2.12, and
-devel branches of ansible-core. Other versions may or may not work.
-
-Controller-only plugins like lookups are tested with Python 3.6, 3.7,
-3.8, and 3.9. Modules are tested with the same versions, plus Python
-2.7.
+This collection is tested against the stable-2.12, stable-2.13,
+stable-2.14, and devel branches of ansible-core. Other versions may or
+may not work. Tested versions of Python are 3.8, 3.9, and 3.10.
 
 ## Supported Vault Versions
 
-This collection is tested against the last three major versions of
-Vault (currently 1.6, 1.7, and 1.8.) Older versions may or may not
-work.
+This collection is tested against Vault 1.11. Other versions may or
+may not work.
 
 Some plugin interfaces include features specific to Vault Enterprise,
 but no attempts are made to test that functionality.

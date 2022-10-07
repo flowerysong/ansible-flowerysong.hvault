@@ -52,12 +52,11 @@ import json
 
 from base64 import b64encode
 
-HAS_BOTOCORE = True
+BOTOCORE_IMPORT_ERROR = None
 try:
     import botocore.session
     from botocore.awsrequest import create_request_object
 except ImportError as e:
-    HAS_BOTOCORE = False
     BOTOCORE_IMPORT_ERROR = e
 
 from ansible.errors import AnsibleError
@@ -67,7 +66,7 @@ from ..plugin_utils.lookup import HVaultLookupBase
 
 class LookupModule(HVaultLookupBase):
     def run(self, terms, variables=None, **kwargs):
-        if not HAS_BOTOCORE:
+        if BOTOCORE_IMPORT_ERROR:
             raise AnsibleError('This plugin requires botocore') from BOTOCORE_IMPORT_ERROR
 
         self.set_options(direct=kwargs)

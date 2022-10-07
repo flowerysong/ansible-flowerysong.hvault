@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- `ldap_config` - `username_as_alias` and `userfilter`
+- `ssh_role` - `not_before_duration` and `default_extensions_template`
 
 ### Changed
 

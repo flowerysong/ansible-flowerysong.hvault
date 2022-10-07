@@ -140,6 +140,16 @@ options:
     default: false
     description:
       - Use the Active Directory tokenGroups attribute to discover group membership.
+  username_as_alias:
+    type: bool
+    default: false
+    description:
+      - Force authentication to use the username passed by the user as the alias name.
+  userfilter:
+    type: str
+    default: ({{.UserAttr}}={{.Username}})
+    description:
+      - Go template used to construct a user search filter.
 '''
 
 EXAMPLES = '''
@@ -247,6 +257,13 @@ def main():
                 type='bool',
                 default=False,
             ),
+            username_as_alias=dict(
+                type='bool',
+                default=False,
+            ),
+            userfilter=dict(
+                default='({{.UserAttr}}={{.Username}})',
+            )
         )
     )
     argspec.update(optspec_to_argspec(optspec))
