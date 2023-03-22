@@ -55,7 +55,6 @@ from base64 import b64encode
 BOTOCORE_IMPORT_ERROR = None
 try:
     import botocore.session
-    from botocore.awsrequest import create_request_object
 except ImportError as e:
     BOTOCORE_IMPORT_ERROR = e
 
