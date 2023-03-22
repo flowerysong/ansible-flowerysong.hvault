@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `ldap_config` - `username_as_alias` and `userfilter`
 - `ssh_role` - `not_before_duration` and `default_extensions_template`
+- `auth_aws` lookup.
 
 ### Changed
 
