@@ -96,11 +96,12 @@ class HVaultModule():
         config.update(optspec_to_config(self.optspec, self.params))
         config = self.mangle_config(config)
 
-        if not hvault_compare(
+        diff = hvault_compare(
             config, result,
             ignore_keys=bad_keys,
             unsorted_keys=[k for (k, v) in self.optspec.items() if (v.get('type') == 'list') and not v.get('sorted')],
-        ):
+        )
+        if diff:
             changed = True
             if not self.module.check_mode:
                 self.client.post(path, config)
@@ -112,4 +113,4 @@ class HVaultModule():
 
         kwargs = {}
         kwargs[result_key] = self.mangle_result(result)
-        self.module.exit_json(changed=changed, **kwargs)
+        self.module.exit_json(changed=changed, diff=diff, **kwargs)

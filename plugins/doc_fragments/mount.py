@@ -35,6 +35,14 @@ options:
       - Engine to mount on this path.
       - Required when I(state=present)
     type: str
+  plugin_version:
+    description:
+      - Semantic version of the plugin to use, e.g. "v1.0.0"
+      - If blank the engine will select a registered unversioned plugin, the
+        best registered versioned plugin, or a built-in plugin (in that order
+        of precendence.)
+    type: str
+    default: ''
   options:
     description:
       - Options to pass to the engine.

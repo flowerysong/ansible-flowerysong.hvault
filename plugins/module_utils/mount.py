@@ -42,6 +42,7 @@ class HVaultMountModule():
                 description=dict(default=''),
                 options=dict(type='dict'),
                 local=dict(type='bool', default=False),
+                plugin_version=dict(default=''),
                 seal_wrap=dict(type='bool', default=False),
                 external_entropy_access=dict(type='bool', default=False),
             )
@@ -65,6 +66,7 @@ class HVaultMountModule():
         mount = self._get_mount(path)
 
         changed = False
+        diff = {}
         if self.params['state'] == 'absent':
             if not mount:
                 self.module.exit_json(changed=False)
@@ -100,25 +102,28 @@ class HVaultMountModule():
             if not self.module.check_mode:
                 self.client.post(mount_path, data=payload)
                 mount = self._get_mount(path)
-        elif not hvault_compare(mount, payload, ignore_keys=['accessor', 'uuid']):
-            changed = True
-            if not self.module.check_mode:
-                if mount['type'] != payload['type']:
-                    if not self.params['force']:
-                        self.module.fail_json('Existing mount at {0} is {1} and force is false'.format(mount_path, mount['type']))
-                    self.client.delete(mount_path)
-                    self.client.post(mount_path, data=payload)
-                else:
-                    # different structure than creation
-                    payload.pop('type')
-                    payload.update(payload.pop('config'))
+        else:
+            diff = hvault_compare(mount, payload, ignore_keys=['accessor', 'deprecation_status', 'running_plugin_version', 'running_sha256', 'uuid'])
+            if diff:
+                changed = True
 
-                    # handle removed keys
-                    for key in mount['config'].keys():
-                        if key not in payload:
-                            payload[key] = None
+                if not self.module.check_mode:
+                    if mount['type'] != payload['type']:
+                        if not self.params['force']:
+                            self.module.fail_json('Existing mount at {0} is {1} and force is false'.format(mount_path, mount['type']))
+                        self.client.delete(mount_path)
+                        self.client.post(mount_path, data=payload)
+                    else:
+                        # different structure than creation
+                        payload.pop('type')
+                        payload.update(payload.pop('config'))
 
-                    self.client.post('{0}/{1}/tune'.format(self.base_path, path), data=payload)
-                mount = self._get_mount(path)
+                        # handle removed keys
+                        for key in mount['config'].keys():
+                            if key not in payload:
+                                payload[key] = None
 
-        self.module.exit_json(changed=changed, mount=mount)
+                        self.client.post('{0}/{1}/tune'.format(self.base_path, path), data=payload)
+                    mount = self._get_mount(path)
+
+        self.module.exit_json(changed=changed, mount=mount, diff=diff)

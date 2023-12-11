@@ -37,11 +37,22 @@ options:
       - Determines whether user and group names are normalized to lowercase
         before being matched against policies.
       - Login requests are not affected by this setting, only policy matching.
+  connection_timeout:
+    type: int
+    default: 30
+    description:
+      - Time, in seconds, before giving up on a connection attempt and trying the next LDAP server.
   request_timeout:
     type: int
     default: 90
     description:
       - Time, in seconds, to wait for a response from the LDAP server.
+  max_page_size:
+    type: int
+    default: 0
+    description:
+      - Maximum number of results to request from the LDAP server at once.
+      - The default value of 0 disables pagination.
   starttls:
     type: bool
     default: false
@@ -111,6 +122,16 @@ options:
     default: true
     description:
       - Prevent users from bypassing authentication by providing an empty password.
+  dereference_aliases:
+    type: str
+    default: never
+    choices:
+      - never
+      - finding
+      - searching
+      - always
+    description:
+      - How aliases are dereferenced when performing the search.
   upndomain:
     type: str
     description:
@@ -205,9 +226,17 @@ def main():
                 type='bool',
                 default=False,
             ),
+            connection_timeout=dict(
+                type='int',
+                default='30',
+            ),
             request_timeout=dict(
                 type='int',
                 default=90,
+            ),
+            max_page_size=dict(
+                type='int',
+                default=0,
             ),
             starttls=dict(
                 type='bool',
@@ -241,6 +270,15 @@ def main():
             deny_null_bind=dict(
                 type='bool',
                 default=True,
+            ),
+            dereference_aliases=dict(
+                choices=[
+                    'never',
+                    'finding',
+                    'searching',
+                    'always',
+                ],
+                default='never',
             ),
             upndomain=dict(),
             anonymous_group_search=dict(
@@ -286,7 +324,8 @@ def main():
     new_config['use_pre111_group_cn_behavior'] = False
 
     changed = False
-    if not hvault_compare(config, new_config, ignore_keys=['request_timeout']):
+    diff = hvault_compare(config, new_config, ignore_keys=['request_timeout'])
+    if diff:
         changed = True
         if module.check_mode:
             config = new_config
@@ -294,7 +333,7 @@ def main():
             client.post(path, new_config)
             config = client.get(path)['data']
 
-    module.exit_json(changed=changed, config=config)
+    module.exit_json(changed=changed, config=config, diff=diff)
 
 
 if __name__ == '__main__':

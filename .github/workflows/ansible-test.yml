@@ -11,7 +11,7 @@ concurrency:
 env:
   COLL_NS: flowerysong
   COLL_NAME: hvault
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: 3.12
   ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}
 
 jobs:
@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -45,28 +45,31 @@ jobs:
           git status --porcelain | grep -q '^ M' && exit 1 || exit 0
 
       - name: Upload collection
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: ${{ env.COLL_NS }}-${{ env.COLL_NAME }}-*.tar.gz
           name: ${{ env.COLL_NS }}-${{ env.COLL_NAME }}
 
   static_analysis:
     needs: build_collection
-    name: static analysis (${{ matrix.ansible_version }})
+    name: static analysis (${{ matrix.ansible_version }}, py${{ matrix.python_version }})
     strategy:
       fail-fast: false
       matrix:
+        python_version:
+          - 3.12
         ansible_version:
-          - stable-2.12
-          - stable-2.13
-          - stable-2.14
+          - stable-2.16
           - devel
+        include:
+          - ansible_version: stable-2.15
+            python_version: 3.11
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ matrix.python_version }}
 
       - name: Install dependencies
         run: |
@@ -74,7 +77,7 @@ jobs:
           python -m pip install 'git+https://github.com/ansible/ansible@${{ matrix.ansible_version }}#egg=ansible-core' pycodestyle pylint pyyaml voluptuous yamllint junit-xml
 
       - name: Download collection
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ env.COLL_NS }}-${{ env.COLL_NAME }}
 
@@ -92,26 +95,24 @@ jobs:
       fail-fast: false
       matrix:
         python_version:
-          - 3.9
+          - 3.12
         ansible_version:
-          - stable-2.12
-          - stable-2.13
-          - stable-2.14
+          - stable-2.16
           - devel
         vault_version:
-          - 1.11.4
+          - 1.14.8
         include:
           # More Python versions
-          - python_version: 3.8
-            ansible_version: stable-2.13
-            vault_version: 1.11.4
-          - python_version: '3.10'
-            ansible_version: stable-2.14
-            vault_version: 1.11.4
+          - python_version: 3.9
+            ansible_version: stable-2.15
+            vault_version: 1.14.8
+          - python_version: 3.11
+            ansible_version: stable-2.15
+            vault_version: 1.14.8
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python_version }}
 
@@ -121,7 +122,7 @@ jobs:
           python -m pip install 'git+https://github.com/ansible/ansible@${{ matrix.ansible_version }}#egg=ansible-core' pyyaml junit-xml
 
       - name: Download collection
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ env.COLL_NS }}-${{ env.COLL_NAME }}
 

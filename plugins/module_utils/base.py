@@ -103,6 +103,7 @@ def hvault_token_argument_spec():
 
 
 def hvault_compare(dict1, dict2, ignore_keys=None, unsorted_keys=None):
+    diff = {}
     for key in ((set(dict1.keys()) | set(dict2.keys())) - set(ignore_keys or [])):
         v1 = dict1.get(key)
         v2 = dict2.get(key)
@@ -113,10 +114,16 @@ def hvault_compare(dict1, dict2, ignore_keys=None, unsorted_keys=None):
                 if v2 and not isinstance(v2, list):
                     v2 = v2.split(',')
                 if sorted(v1 or []) != sorted(v2 or []):
-                    return False
+                    diff[key] = {
+                        'before': v1,
+                        'after': v2,
+                    }
             elif (v1 != v2):
-                return False
-    return True
+                diff[key] = {
+                    'before': v1,
+                    'after': v2,
+                }
+    return diff
 
 
 class HVaultClient():
