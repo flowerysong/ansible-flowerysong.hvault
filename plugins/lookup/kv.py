@@ -44,7 +44,6 @@ from ..plugin_utils.lookup import HVaultLookupBase
 class LookupModule(HVaultLookupBase):
     def run(self, terms, variables=None, **kwargs):
         self.init_options(variables=variables, direct=kwargs)
-        self.set_option('raw', False)
         self.config_client()
 
         mount = self.get_option('mount_point')

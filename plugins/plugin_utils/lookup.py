@@ -46,7 +46,7 @@ class HVaultLookupBase(LookupBase):
             display.vvvv('flowerysong.hvault lookup found {0}'.format(secret))
 
             if secret:
-                if 'data' in secret and not self.get_option('raw'):
+                if 'data' in secret and (not self.has_option('raw') or not self.get_option('raw')):
                     secret = secret['data']
                 ret.append(secret)
             else:
