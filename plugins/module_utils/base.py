@@ -146,43 +146,56 @@ class HVaultClient():
         if data:
             headers['Content-type'] = 'application/json'
 
-        try:
-            result = open_url(
-                url,
-                headers=headers,
-                method=method,
-                data=jsonify(data),
-                timeout=self.params['timeout'],
-                http_agent=self.params['http_agent'],
-                use_proxy=self.params['use_proxy'],
-                validate_certs=self.params['validate_certs'],
-                client_cert=self.params['client_cert'],
-                client_key=self.params['client_key'],
-            ).read()
-            if result:
-                return json.loads(result)
-            return None
+        attempt = 0
+        while True:
+            attempt += 1
+            try:
+                result = open_url(
+                    url,
+                    headers=headers,
+                    method=method,
+                    data=jsonify(data),
+                    timeout=self.params['timeout'],
+                    http_agent=self.params['http_agent'],
+                    use_proxy=self.params['use_proxy'],
+                    validate_certs=self.params['validate_certs'],
+                    client_cert=self.params['client_cert'],
+                    client_key=self.params['client_key'],
+                ).read()
+                if result:
+                    return json.loads(result)
+                return None
 
-        except HTTPError as e:
-            if fatal and self._module:
-                msg = 'Failed to {0} {1}: {2} (HTTP {3})'.format(method, path, e.reason, e.code)
-                result = {}
-                try:
-                    result = json.loads(e.read())
-                except Exception:   # oop
-                    pass
-                failure = {
-                    'msg': msg,
-                    'headers': str(e.headers),
-                    'result': result,
-                }
-                self._module.fail_json(**failure)
-            raise
+            except ConnectionError as e:
+                if attempt < 5:
+                    continue
+                if self._module:
+                    failure = {
+                        'msg': f'Failed to {method} {path}',
+                    }
+                    self._module.fail_json(**failure)
+                raise ConnectionError(f'Failed to {method} {path}') from e
 
-        except URLError as e:
-            if fatal and self._module:
-                self._module.fail_json(msg='Failed to {0} {1}: {2}'.format(method, path, e.reason))
-            raise
+            except HTTPError as e:
+                if fatal and self._module:
+                    msg = 'Failed to {0} {1}: {2} (HTTP {3})'.format(method, path, e.reason, e.code)
+                    result = {}
+                    try:
+                        result = json.loads(e.read())
+                    except Exception:   # oop
+                        pass
+                    failure = {
+                        'msg': msg,
+                        'headers': str(e.headers),
+                        'result': result,
+                    }
+                    self._module.fail_json(**failure)
+                raise
+
+            except URLError as e:
+                if fatal and self._module:
+                    self._module.fail_json(msg='Failed to {0} {1}: {2}'.format(method, path, e.reason))
+                raise
 
     def get(self, path, fatal=True):
         return self._open_url(path, method='GET', fatal=fatal)
