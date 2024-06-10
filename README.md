@@ -17,8 +17,9 @@ dependencies on the control node or target.
 
 ## Supported Ansible Versions
 
-This collection is tested against the stable-2.15, stable-2.16, and
-devel branches of ansible-core. Other versions may or may not work.
+This collection is tested against the stable-2.15, stable-2.16,
+stable-2.17, and devel branches of ansible-core. Other versions may or
+may not work.
 
 ## Supported Vault Versions
 
