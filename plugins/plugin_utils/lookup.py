@@ -36,20 +36,20 @@ class HVaultLookupBase(LookupBase):
         ret = []
 
         for term in terms:
-            display.debug('flowerysong.hvault lookup term: {0}'.format(term))
+            display.debug(f'flowerysong.hvault lookup term: {term}')
 
             try:
                 secret = self.client.get(term)
             except URLError as e:
-                raise AnsibleError('Unable to fetch secret') from e
+                raise AnsibleError(f'Unable to fetch secret {term}: {e}"')
 
-            display.vvvv('flowerysong.hvault lookup found {0}'.format(secret))
+            display.vvvv(f'flowerysong.hvault lookup found {secret}')
 
             if secret:
                 if 'data' in secret and (not self.has_option('raw') or not self.get_option('raw')):
                     secret = secret['data']
                 ret.append(secret)
             else:
-                raise AnsibleError('Unable to find secret matching "{0}"'.format(term))
+                raise AnsibleError(f'Unable to find secret matching "{term}"')
 
         return ret
