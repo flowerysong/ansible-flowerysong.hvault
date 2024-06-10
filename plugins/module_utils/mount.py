@@ -72,7 +72,7 @@ class HVaultMountModule():
                 self.module.exit_json(changed=False)
 
             if not self.module.check_mode:
-                self.client.delete('{0}/{1}'.format(self.base_path, path))
+                self.client.delete(f'{self.base_path}/{path}')
             self.module.exit_json(changed=True, mount=mount)
 
         changed = False
@@ -96,7 +96,7 @@ class HVaultMountModule():
             for key, val in self.params['options'].items():
                 payload['options'][key] = str(val)
 
-        mount_path = '{0}/{1}'.format(self.base_path, path)
+        mount_path = f'{self.base_path}/{path}'
         if not mount:
             changed = True
             if not self.module.check_mode:
@@ -110,7 +110,7 @@ class HVaultMountModule():
                 if not self.module.check_mode:
                     if mount['type'] != payload['type']:
                         if not self.params['force']:
-                            self.module.fail_json('Existing mount at {0} is {1} and force is false'.format(mount_path, mount['type']))
+                            self.module.fail_json(f'Existing mount at {mount_path} is {mount["type"]} and force is false')
                         self.client.delete(mount_path)
                         self.client.post(mount_path, data=payload)
                     else:
@@ -123,7 +123,7 @@ class HVaultMountModule():
                             if key not in payload:
                                 payload[key] = None
 
-                        self.client.post('{0}/{1}/tune'.format(self.base_path, path), data=payload)
+                        self.client.post(f'{self.base_path}/{path}/tune', data=payload)
                     mount = self._get_mount(path)
 
         self.module.exit_json(changed=changed, mount=mount, diff=diff)

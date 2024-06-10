@@ -138,7 +138,7 @@ class HVaultClient():
                     self.params['token'] = f.read().strip()
 
     def _open_url(self, path, method, data=None, fatal=True):
-        url = '{0}/v1/{1}'.format(self.params['vault_addr'], path)
+        url = f'{self.params["vault_addr"]}/v1/{path}'
 
         headers = {}
         if self.params.get('token'):
@@ -178,7 +178,7 @@ class HVaultClient():
 
             except HTTPError as e:
                 if fatal and self._module:
-                    msg = 'Failed to {0} {1}: {2} (HTTP {3})'.format(method, path, e.reason, e.code)
+                    msg = f'Failed to {method} {path}: {e.reason} (HTTP {e.code})'
                     result = {}
                     try:
                         result = json.loads(e.read())
@@ -194,7 +194,7 @@ class HVaultClient():
 
             except URLError as e:
                 if fatal and self._module:
-                    self._module.fail_json(msg='Failed to {0} {1}: {2}'.format(method, path, e.reason))
+                    self._module.fail_json(msg=f'Failed to {method} {path}: {e.reason}')
                 raise
 
     def get(self, path, fatal=True):
@@ -216,6 +216,6 @@ class HVaultClient():
             if getattr(e, 'code', 0) == 404:
                 return False
             if fatal and self._module:
-                self._module.fail_json(msg='Failed to DELETE {0}: {1}'.format(path, e.reason))
+                self._module.fail_json(msg=f'Failed to DELETE {path}: {e.reason}')
             raise
         return True
