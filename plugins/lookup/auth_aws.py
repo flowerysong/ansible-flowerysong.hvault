@@ -99,7 +99,7 @@ class LookupModule(HVaultLookupBase):
             try:
                 secret = self.client.post(url, config)
             except URLError as e:
-                raise AnsibleError('Unable to authenticate') from e
+                raise AnsibleError(f'Unable to authenticate: {e}')
 
             if secret:
                 if self.get_option('raw'):
