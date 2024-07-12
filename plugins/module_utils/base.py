@@ -9,6 +9,8 @@ __metaclass__ = type
 import json
 import os
 
+from time import sleep
+
 from ansible.module_utils.basic import env_fallback
 from ansible.module_utils.common.text.converters import jsonify
 from ansible.module_utils.six.moves.urllib.error import (
@@ -168,6 +170,7 @@ class HVaultClient():
 
             except ConnectionError as e:
                 if attempt < 5:
+                    sleep(attempt)
                     continue
                 if self._module:
                     failure = {
