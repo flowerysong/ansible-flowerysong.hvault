@@ -168,6 +168,7 @@ class HVaultClient():
 
             except ConnectionError as e:
                 if attempt < 5:
+                    sleep(attempt)
                     continue
                 if self._module:
                     failure = {
