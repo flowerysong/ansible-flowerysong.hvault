@@ -9,6 +9,7 @@ __metaclass__ = type
 import json
 import os
 
+from http.client import IncompleteRead
 from time import sleep
 
 from ansible.module_utils.basic import env_fallback
@@ -168,7 +169,7 @@ class HVaultClient():
                     return json.loads(result)
                 return None
 
-            except ConnectionError as e:
+            except (ConnectionError, IncompleteRead) as e:
                 if attempt < 5:
                     sleep(attempt)
                     continue
