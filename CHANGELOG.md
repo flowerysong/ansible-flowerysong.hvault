@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## 0.3.0 - 2024-12-10
 
 ### Added
 - `ldap_config` - `username_as_alias` and `userfilter`
@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 - plugin options now resolve templated values
 - avoid `set_option()` errors on newer versions of ansible-core
 
-## [0.2.0] - 2021-04-28
+## 0.2.0 - 2021-04-28
 
 ### Added
 - `aws_auth_role` module.
@@ -31,6 +31,6 @@ All notable changes to this project will be documented in this file.
   module to fail.
 - Renamed the `url` parameter to `vault_addr`.
 
-## [0.1.0] - 2021-04-21
+## 0.1.0 - 2021-04-21
 
 Initial Release
