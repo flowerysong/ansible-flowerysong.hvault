@@ -2,7 +2,7 @@
 
 [![ansible-test](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml/badge.svg)](https://github.com/flowerysong/ansible-flowerysong.hvault/actions/workflows/ansible-test.yml)
 
-This [Ansible](https://www.ansible.com/) Collection implements
+This [Ansible](https://www.ansible.com/) collection implements
 a number of plugins for interacting with [HashiCorp
 Vault](https://vaultproject.io/). A complete set of low-level
 operations (read, write, list, and delete) are available, so
@@ -17,8 +17,8 @@ dependencies on the control node or target.
 
 ## Supported Ansible Versions
 
-This collection is tested against the stable-2.15, stable-2.16,
-stable-2.17, and devel branches of ansible-core. Other versions may or
+This collection is tested against the stable-2.16, stable-2.17,
+stable-2.18, and devel branches of ansible-core. Other versions may or
 may not work.
 
 ## Supported Vault Versions

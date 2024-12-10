@@ -9,8 +9,7 @@ concurrency:
 env:
   COLL_NS: flowerysong
   COLL_NAME: hvault
-  PYTHON_VERSION: 3.12
-  ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}
+  ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}
 
 jobs:
   build_collection:
@@ -23,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: 3.12
 
       - name: Install dependencies
         run: |
@@ -59,10 +58,8 @@ jobs:
         ansible_version:
           - stable-2.16
           - stable-2.17
+          - stable-2.18
           - devel
-        include:
-          - ansible_version: stable-2.15
-            python_version: 3.11
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -94,20 +91,20 @@ jobs:
       fail-fast: false
       matrix:
         python_version:
+          - 3.11
           - 3.12
+          - 3.13
         ansible_version:
-          - stable-2.16
-          - devel
+          - stable-2.18
         vault_version:
-          - 1.14.8
+          - 1.14.10
         include:
-          # More Python versions
-          - python_version: 3.9
-            ansible_version: stable-2.15
-            vault_version: 1.14.8
-          - python_version: 3.11
-            ansible_version: stable-2.15
-            vault_version: 1.14.8
+          - python_version: '3.10'
+            ansible_version: stable-2.17
+            vault_version: 1.14.10
+          - python_version: 3.13
+            ansible_version: devel
+            vault_version: 1.14.10
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
