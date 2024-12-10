@@ -9,9 +9,12 @@ All notable changes to this project will be documented in this file.
 - `auth_aws` lookup.
 
 ### Changed
+- retry after errors that might be transient
+- improved error output
 
 ### Fixed
 - plugin options now resolve templated values
+- avoid `set_option()` errors on newer versions of ansible-core
 
 ## [0.2.0] - 2021-04-28
 
