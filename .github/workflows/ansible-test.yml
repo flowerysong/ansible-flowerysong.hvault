@@ -60,6 +60,7 @@ jobs:
           - stable-2.17
           - stable-2.18
           - devel
+          - refs/pull/84621/head
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -104,6 +105,9 @@ jobs:
             vault_version: 1.14.10
           - python_version: 3.13
             ansible_version: devel
+            vault_version: 1.14.10
+          - python_version: 3.13
+            ansible_version: refs/pull/84621/head
             vault_version: 1.14.10
     runs-on: ubuntu-latest
     steps:
