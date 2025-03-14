@@ -131,7 +131,7 @@
         that:
           - result.results.0 is changed
           - result.results.1 is failed
-          - result.results.1.msg == 'Failed to POST terces/data/casper: Bad Request'
+          - "result.results.1.msg == 'Failed to POST terces/data/casper: Bad Request (HTTP 400)'"
           - result.results.2 is changed
   always:
     - import_role:
