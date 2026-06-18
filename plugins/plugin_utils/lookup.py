@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+from urllib.error import URLError
 
 from ansible.errors import AnsibleError
-from ansible.module_utils.six.moves.urllib.error import URLError
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
 

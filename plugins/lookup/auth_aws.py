@@ -51,6 +51,7 @@ RETURN = """
 import json
 
 from base64 import b64encode
+from urllib.error import URLError
 
 BOTOCORE_IMPORT_ERROR = None
 try:
@@ -59,7 +60,6 @@ except ImportError as e:
     BOTOCORE_IMPORT_ERROR = e
 
 from ansible.errors import AnsibleError
-from ansible.module_utils.six.moves.urllib.error import URLError
 from ..plugin_utils.lookup import HVaultLookupBase
 
 

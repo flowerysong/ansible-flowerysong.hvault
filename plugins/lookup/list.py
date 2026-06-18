@@ -37,8 +37,9 @@ RETURN = """
     elements: dict
 """
 
+from urllib.error import URLError
+
 from ansible.errors import AnsibleError
-from ansible.module_utils.six.moves.urllib.error import URLError
 from ansible.utils.display import Display
 
 from ..plugin_utils.lookup import HVaultLookupBase

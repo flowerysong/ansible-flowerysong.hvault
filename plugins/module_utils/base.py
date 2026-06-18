@@ -11,13 +11,10 @@ import os
 
 from http.client import IncompleteRead
 from time import sleep
+from urllib.error import HTTPError, URLError
 
 from ansible.module_utils.basic import env_fallback
 from ansible.module_utils.common.text.converters import jsonify
-from ansible.module_utils.six.moves.urllib.error import (
-    HTTPError,
-    URLError,
-)
 from ansible.module_utils.urls import open_url
 
 

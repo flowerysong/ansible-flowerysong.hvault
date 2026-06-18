@@ -82,10 +82,10 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
+from urllib.error import URLError
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.common.text.converters import jsonify
-from ansible.module_utils.six import string_types
-from ansible.module_utils.six.moves.urllib.error import URLError
 
 from ..module_utils.base import (
     HVaultClient,
@@ -129,7 +129,7 @@ def main():
 
     policy = module.params['policy']
 
-    if not isinstance(policy, string_types):
+    if not isinstance(policy, str):
         if not isinstance(policy, dict):
             module.fail_json(msg='policy must be either a dict or a string, got {0}'.format(type(policy)))
 
